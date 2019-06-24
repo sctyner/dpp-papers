@@ -1,0 +1,80 @@
+---
+title: TBD
+author:
+  - name: Sam Tyner
+    email: sctyner90@gmail.com
+    affiliation: TBD
+    footnote: Corresponding Author
+address:
+  - code: Some Institute of Technology
+    address: Department, Street, City, State, Zip
+abstract: |
+  This is the abstract.
+
+  It consists of two paragraphs.
+
+journal: "Forensic Science International"
+date: "`r Sys.Date()`"
+bibliography: mybibfile.bib
+output: rticles::elsevier_article
+---
+
+_Text based on elsarticle sample manuscript, see [http://www.elsevier.com/author-schemas/latex-instructions#elsarticle](http://www.elsevier.com/author-schemas/latex-instructions#elsarticle)_
+
+
+# Introduction
+
+- Begin with a short discussion about *Likelihood ratio as weight of forensic evidence: a closer look*  
+    * Not every CDF in KS bounds is reasonable
+    * Range of LRs given, but not a distribution.
+    * Within the range, some LRs are going to be more likely than others 
+- Moving in a different direction 
+    * Don't look at the data first 
+    * Use only knowledge about the problem to select range of possible distributions 
+    * Define the constraints you wish to place on the distribution of CDFs (or on CDFs themselves?)
+    * Use Dirichlet Process priors to get a range of plausible values
+- Specific application(s)
+    * Come up with range of plausible LRs for RI values in glass data:
+        * What is the distribution of RI in glass from the same pane? 
+        * What is the distribution of RI in all glass from the relevant population? 
+    * (Maybe) Range of plausible SLRs for RF scores for element concentrations in glass data
+        * What is the distribution of scores for known mates? 
+        * What is the distribution of scores for known non-mates? 
+
+# Dirichlet Process Priors
+
+- Motivation: 
+    * Bayesian way
+    * Know very little about the shape, family, etc of the distribution
+    * Simulate random CDFs from many priors
+    * Check that they fit a set of constraints
+    * Obtain posterior distribution of CDFs to get interval of plausible values of interest
+- Theory: 
+    * A little bit about what Dirichlet Process Priors are 
+    * Not too technical for a forensic science audience
+    * Stick breaking procedure
+    * Size of M dictates how much to weigh data vs. base measure in the posterior 
+    * Posterior: pick a random data point or pick a random value from the base measure 
+- Application: 
+    * Computer simulation: pick many Ms, base distributions, bounds/constraints.
+    * Approximation 
+    * Mention the `dprocsim` package 
+
+# Simulation study 
+
+## Likelihood ratio for RI data 
+
+Two distributions, (1) RI for glass from the same pane, (2) RI for glass from different panes
+
+- What is previously known about glass data from Lindley paper and others? 
+
+- Bounds on CDF: smoothed 80% and 95% KS bands 
+    
+
+
+
+
+Here are two sample references: @Feynman1963118 [@Dirac1953888].
+
+References {#references .unnumbered}
+==========
