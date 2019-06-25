@@ -24,7 +24,7 @@ _Text based on elsarticle sample manuscript, see [http://www.elsevier.com/author
 
 # Introduction
 
-- Begin with a short discussion about *Likelihood ratio as weight of forensic evidence: a closer look*  
+- Begin with a short discussion about *Likelihood ratio as weight of forensic evidence: a closer look* [@lundiyer17] 
     * Not every CDF in KS bounds is reasonable
     * Range of LRs given, but not a distribution.
     * Within the range, some LRs are going to be more likely than others 
@@ -64,17 +64,48 @@ _Text based on elsarticle sample manuscript, see [http://www.elsevier.com/author
 
 ## Likelihood ratio for RI data 
 
-Two distributions, (1) RI for glass from the same pane, (2) RI for glass from different panes
+Two distributions, (1) RI for glass from the same pane, [@evett77, @curranR] (2) RI for glass from different panes [@lambertevett84]
 
 - What is previously known about glass data from Lindley paper and others? 
 
 - Bounds on CDF: smoothed 80% and 95% KS bands 
+
+- simulation steps: 
+    * Pick some Ms, some base distributions 
+    * Simulate cdfs from them 
+    * Check the criteria
+    * Get the posteriors from them 
+    * Get a distribution of possible values of $f_p, f_d$ for mean of "suspect" sample
+    * Get a distribution of LRs. (How to turn two distributions of $f_p, f_d$ into another distribution?)
+
+## Score-based likelihood ratio for random forest scores 
+
+Two distributions, (1) scores for known mates, (2) scores for known non-mates [@park19]
+
+- What do we know/assume about the distribution of the scores? 
+
+- Restrictions on the CDF itself: no more than __% chance of being above/below the threshold (.5), positive probability everywhere 
+
+- simulation steps: 
+    * Pick some Ms, some base distributions 
+    * Simulate cdfs from them 
+    * Check the criteria
+    * Get the posteriors from them 
+    * Get a distribution of possible values of $f_p, f_d$ for some fixed score (.6?)
+    * Get a distribution of SLRs. (How to turn two distributions of $f_p, f_d$ into another distribution?)
+
+- I'm not quite sure how to get a distribution of LRs/SLRs from the distributions of $f_p, f_d$. 
+    * Idea: Draw one sample from $f_p$, draw another from $f_d$. Compute LR/SLR. Repeat large $B$ times. (??)
+
+# Discussion
+
+- We have a distribution of values for $f_p, f_d$, which we turned into a LR, SLR
+- There is inherent uncertainty in the assumptions made. 
+    * this might not matter all that much in a more traditional statistical problem, but it could make a large difference in the LR/SLR values in the forensic science context, which has huge impact on people's lives. 
+    
+- More information, transparency in the decision making process. Be clear about assumptions and beliefs, and accept that others who are reasonable could make different assumptions and come up with different answers.
+- We have examined just how different those answers could be when making reasonable assumptions
     
 
+# References {#references .unnumbered}
 
-
-
-Here are two sample references: @Feynman1963118 [@Dirac1953888].
-
-References {#references .unnumbered}
-==========
