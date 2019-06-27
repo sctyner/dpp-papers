@@ -1,0 +1,64 @@
+---
+title: TBD
+
+# to produce blinded version set to 1
+blinded: 0
+
+authors: 
+- name: Sam Tyner
+  thanks: The authors gratefully acknowledge ...
+  affiliation: Department of YYY, University of XXX
+  
+keywords:
+- prior elicitation
+- reliability 
+
+abstract: |
+  The text of your abstract.  200 or fewer words.
+
+bibliography: bibliography.bib
+output: rticles::asa_article
+---
+
+# Introduction
+
+- Motivate the reasons behind prior elicitation 
+    * some knowledge about the given topic is required 
+    * critera need to be well defined 
+    * want to understand the full range of what is possible for the question of interest 
+- Reasonable people can make different assumptions: what is the impact of those assumptions? 
+    * model uncertainty 
+    * p-boxes: a way to quantify the uncertainty about the distribution
+    * what kind of cdfs are elicited from DP priors from the "reasonable" assumptions? 
+    
+# Data 
+
+- Reliability data: time to failure 
+    * why this data? 
+    * important for some reason, will have some impact on the larger system
+- What is known about the data beforehand? 
+    * general populations studies
+    * previous studies of same type of data from similar places 
+    * time to failure, count to failure? 
+
+# Prior elicitation
+
+- Size of $M$: $M=1$ leads to priors that are more space-filling with large CDF jumps , while size of $M$ large ($\approx$ 25 and above) will stick close to the base distribution
+- Weight of $M$ vs weight of data in the posterior: if $M = n$ the prior and data are weighted equally 
+- Definition of criteria for acceptable priors: 
+    * p-box bounds: how many cdfs should fall in the bounds, above the bounds, below the bounds. do this for a grid of x's and compute as a proportion for each x value. 
+    * criteria on the cdf themselves: proportion of simulated cdfs with probability at a certain value at a certain x value 
+- Once a prior has been accepted according to the criteria, obtain posterior simulations from them, and obtain a range for the value of interest (either time/count to failure mean, or the 95th/75th/other percentile)
+    * which priors elicit the most similar/different values of the value of interest 
+    
+# Posterior examination 
+
+- What do the posteriors look like? 
+    * Mean value, 95th percentile, etc. 
+- What do the rejected priors look like (assuming we had accepted them)
+- What is the impact of the prior on the posterior? What is the impact of the data? 
+
+# Discussion 
+
+
+
