@@ -50,7 +50,7 @@ sample_mixnorm <- function(u, mus, sigmas, ws){
   }
 }
 
-
+# this is nothing
 test <- data.frame(u = runif(1000))
 
 test2 <- mutate(test, draws = map_dbl(u, sample_mixnorm, 
@@ -59,7 +59,8 @@ test2 <- test2 %>% mutate(draws_bigger = map_dbl(u, sample_mixnorm,
                          mus = means +.001 , sigmas = rep(4e-4,3), ws = rep(1/3,3)),
                          draws_smaller = map_dbl(u, sample_mixnorm, 
                                                 mus = means -.003 , sigmas = rep(4e-4,3), ws = rep(1/3,3)))
-
+test2 <- test2 %>% mutate(draws_bigger = rnorm(1000, mean = 1.522, sd = 1e-3 ), 
+                          draws_smaller = rnorm(1000, mean = 1.517, sd = 1e-3))
 
 test3 <- test2 %>% mutate(draws_ecdf = ecdf(draws)(draws),
                  draws_bigger_ecdf = ecdf(draws_bigger)(draws_bigger), 

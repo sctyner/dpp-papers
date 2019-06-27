@@ -64,11 +64,20 @@ _Text based on elsarticle sample manuscript, see [http://www.elsevier.com/author
 
 ## Likelihood ratio for RI data 
 
-Two distributions, (1) RI for glass from the same pane, [@evett77, @curranR] (2) RI for glass from different panes [@lambertevett84]
+Refractive Index (RI) is a measurment of how light bends through a medium. In @evett77, @lambertevett84 and others RI is suggested as a method to determine if recovered glass fragments could have come from a known source of glass, such as a broken window at a crime scene. 
 
-- What is previously known about glass data from Lindley paper and others? 
 
-- Bounds on CDF: smoothed 80% and 95% KS bands 
+Two distributions, (1) RI for glass from the same pane, [@evett77] (2) RI for glass from different panes [@lambertevett84]
+
+
+
+- What is previously known about glass data from Evett paper and others? 
+
+- Bounds on CDF: ~~smoothed 80% and 95% KS bands~~ p-box around the base distributions
+    * for "prosecutor's hypothesis": base distribution is Normal($\bar{X}$, $\sigma = 4\times10^{-5}$) where $\bar{X}$ is the sample mean from the known source of glass [@evett77]
+    * for "defense hypothesis": base distribution is a mixture of normals with the same $\sigma = 4\times10^{-5}$. Per population data examined in @lambertevett84, "most of the samples are centered around and RI of 1.5175 with smaller groups near 1.5192 and 1.5220. So, we'll use three normal distributions with means 1.5175, 1.5192, and 1.5220 and mixture weights .6, .2, and .2, respectively. We use the common standard deviation of $\sigma = 4\times10^{-5}$. 
+    * how to construct the p-box around the true cdfs? 
+    
 
 - simulation steps: 
     * Pick some Ms, some base distributions 
