@@ -60,5 +60,10 @@ output: rticles::asa_article
 
 # Discussion 
 
+- Model uncertainty 
+- Subjective priors/probabilities 
+- how to truly represent lack of knowledge? 
+- What have we shown? 
+- Future directions.
 
 
