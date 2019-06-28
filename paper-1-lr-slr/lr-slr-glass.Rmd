@@ -30,9 +30,9 @@ output: rticles::elsevier_article
     * with enough data, can go straight to the posterior DP(n, $\hat{F}_n$) [@draper17]
 - Specific application(s)
     * Come up with range of plausible LRs for RI values in glass data:
-        * distribution for pane means 
-        * distribution for measurements within a pane 
-    * (Maybe) Range of plausible SLRs for RF scores for element concentrations in glass data
+        * distribution for pane means [@curranpkg]
+        * distribution for measurements within a pane [@lambertevett84]
+    * Range of plausible SLRs for RF scores for element concentrations in glass data
         * What is the distribution of scores for known mates? 
         * What is the distribution of scores for known non-mates? 
 
@@ -46,11 +46,11 @@ output: rticles::elsevier_article
     * A little bit about what Dirichlet Process Priors are 
     * Not too technical for a forensic science audience
     * Stick breaking procedure
-    * Let M go to zero. When data are large, M is small, the posterior distribution converges to almost bootstrap
+    * Let M go to zero. When data are large, M is small, the posterior distribution converges to almost bootstrap [@draper17]
 - Application: 
     * Computer simulation from the posterior.
     * Approximation 
-    * Mention the `dprocsim` package 
+    * Mention the `dprocsim` package as the tool.
 
 # Simulation study 
 
@@ -59,7 +59,7 @@ output: rticles::elsevier_article
 Refractive Index (RI) is a measurment of how light bends through a medium. In @evett77, @lambertevett84 and others RI is suggested as a method to determine if recovered glass fragments could have come from a known source of glass, such as a broken window at a crime scene. 
 
 
-Two scenarios, (1) RI for glass from the same pane, [@evett77] (2) RI for glass from different panes [@lambertevett84]
+Two scenarios, (1) RI for glass from the same pane, [@curranpkg] (2) RI for glass from different panes [@lambertevett84]
 
 What are the distributions of interest: 
 
@@ -70,41 +70,45 @@ Quantity of Interest:
 
 $$LR = \frac{\int_{\Theta} f(x,y | \theta) g(\theta) d\theta}{\int_{\Theta} f(x | \theta) g(\theta) d\theta \times \int_{\Theta} f(y | \theta) g(\theta) d\theta}$$
 
+- Where $X$ is the glass sample from the crime scene, and $y$ is the glass recovered from the suspect. 
 
+<!--
 - What is previously known about glass data from Evett paper and others? 
 
 - Bounds on CDF: ~~smoothed 80% and 95% KS bands~~ p-box around the base distributions
     * for "prosecutor's hypothesis": base distribution is Normal($\bar{X}$, $\sigma = 4\times10^{-5}$) where $\bar{X}$ is the sample mean from the known source of glass [@evett77]
     * for "defense hypothesis": base distribution is a mixture of normals with the same $\sigma = 4\times10^{-5}$. Per population data examined in @lambertevett84, "most of the samples are centered around and RI of 1.5175 with smaller groups near 1.5192 and 1.5220. So, we'll use three normal distributions with means 1.5175, 1.5192, and 1.5220 and mixture weights .6, .2, and .2, respectively. We use the common standard deviation of $\sigma = 4\times10^{-5}$. 
     * how to construct the p-box around the true cdfs? 
-    
+--> 
+
 
 - simulation steps: 
-    * Pick some Ms, some base distributions 
-    * Simulate cdfs from them 
-    * Check the criteria
-    * Get the posteriors from them 
-    * Get a distribution of possible values of $f_p, f_d$ for mean of "suspect" sample
-    * Get a distribution of LRs. (How to turn two distributions of $f_p, f_d$ into another distribution?)
+    1. Go straight to the posterior: Simulate a cdf from F, G (subtract the median from the data for F: location family)
+    2. Get a grid of median values you're interested in. 
+    3. For each median ($\theta$) in the grid:
+        a. Compute G($\theta + \epsilon$) - G($\theta - \epsilon$) for some small $\epsilon$ (e.g. 0.0001)
+        b. Compute F($x-\theta + \epsilon$) - F($x-\theta - \epsilon$) for some small $\epsilon$ (e.g. 0.0001) for all values in the data of interest (crime scene sample + suspect sample)
+    4. Multiply results from 3b together, then multiply that result by 3a. (for the numerator) 
+    5. Multiply the results from 3b by group: crime scene sample only, then suspect sample only.
+    6. multiply 3a by each value from 5. 
+    7. Sum the results from 6 in their groups (two integrals), then multiply the sums together.
+    8. Sum the results from 4, then divide by result from 7. This is the LR. 
+- Repeat the above process many times until a distribution of LRs is acheived. (1000+ times)
 
 ## Score-based likelihood ratio for random forest scores 
 
 Two distributions, (1) scores for known mates, (2) scores for known non-mates [@park19]
 
-- What do we know/assume about the distribution of the scores? 
-
-- Restrictions on the CDF itself: no more than __% chance of being above/below the threshold (.5), positive probability everywhere 
+- Go straight to the posterior again. 
 
 - simulation steps: 
-    * Pick some Ms, some base distributions 
-    * Simulate cdfs from them 
-    * Check the criteria
-    * Get the posteriors from them 
-    * Get a distribution of possible values of $f_p, f_d$ for some fixed score (.6?)
-    * Get a distribution of SLRs. (How to turn two distributions of $f_p, f_d$ into another distribution?)
-
-- I'm not quite sure how to get a distribution of LRs/SLRs from the distributions of $f_p, f_d$. 
-    * Idea: Draw one sample from $f_p$, draw another from $f_d$. Compute LR/SLR. Repeat large $B$ times. (??)
+    1. Go straight to the posterior: Simulate a cdf from $F_p$, $F_d$
+    2. Over a grid of scores (0-1), compute 
+        a. $F_p(s+\epsilon) - F_p(s-\epsilon)$
+        b. $F_d(s+\epsilon) - F_d(s-\epsilon)$
+    3. Divide $F_p / F_d$ for each score in the grid. This is the LR. 
+    4. For a particular score of interest, report the LR.
+- Repeat the above process many times to obtain a distribution of the LR for that particular score of interest. 
 
 # Discussion
 
