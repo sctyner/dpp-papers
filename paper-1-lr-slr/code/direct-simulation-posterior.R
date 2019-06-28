@@ -170,4 +170,6 @@ summary_values_for_integral %>%
   geom_line(aes(y = dens_eval_gnum)) +
   geom_line(aes(y = num_dat_prod), color = "red") + 
   geom_line(aes(y = den_dat_prod_cs), color = "blue") + 
-  geom_line(aes(y = den_dat_prod_sus), color = "green")
+  geom_line(aes(y = den_dat_prod_sus), color = "green") + 
+  coord_cartesian(xlim = c(1.516, 1.520))
+  
