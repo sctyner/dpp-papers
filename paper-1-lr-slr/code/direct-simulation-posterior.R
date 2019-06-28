@@ -105,20 +105,20 @@ pane_cdf_sim <- dpprior_sim(M = n_pane , F0 = draw_from_ecdf , sticks = 100, ecd
 grid_theta <- seq(min(glass_pop_all), max(glass_pop_all), by = .00001)
 
 g_eval_grid <- tibble(theta = grid_theta) %>% 
-  mutate(dens_eval_gnum = map_dbl(theta, eval_dens, epsilon = .0001, sims = pop_cdf_sim %>% mutate(rep =1)))
+  mutate(dens_eval_gnum = map_dbl(theta, eval_dens, epsilon = .0002, sims = pop_cdf_sim %>% mutate(rep =1)))
 
 
 # Step 4a: Evaluate F(x - theta + epsilon) - F(x - theta - epsilon) over a grid of thetas 
 
 f_g_eval_grid <- g_eval_grid %>% 
   mutate(dens_eval_fnum.cs1 = map_dbl(theta, function(x) {
-    eval_dens(crime_scene_sample$RI[1]- x, epsilon = .0001, sims = pane_cdf_sim %>% mutate(rep = 1)) }
+    eval_dens(crime_scene_sample$RI[1]- x, epsilon = .0002, sims = pane_cdf_sim %>% mutate(rep = 1)) }
     ))
 
 # Step 4b: repeat 4a for all observations in the joint sample (crime scene + suspect data)
 
 each_window_eval <- function(theta, val) {
-  eval_dens(val - theta, epsilon = .0001, sims = pane_cdf_sim %>% mutate(rep = 1))
+  eval_dens(val - theta, epsilon = .0002, sims = pane_cdf_sim %>% mutate(rep = 1))
   }
 
 f_g_eval_grid <- f_g_eval_grid %>% 
@@ -161,8 +161,8 @@ summary_values_for_integral %>%
          den_to_sum1 = dens_eval_gnum * den_dat_prod_cs,  # Step 9: Multiply step 3 times step 7 & step 3 times step 8
          den_to_sum2 = dens_eval_gnum * den_dat_prod_sus) %>% 
   select(num_to_sum, den_to_sum1, den_to_sum2) %>% 
-  summarise_all(sum) %>% 
-  mutate(LR = num_to_sum / (den_to_sum1 * den_to_sum2))
+  summarise_all(sum) %>%  # Step 10: Sum over theta then multiply 2 values from step 9
+  mutate(LR = num_to_sum / (den_to_sum1 * den_to_sum2)) # Step 11: divide sum of step 6 by  step 10. This is the LR. 
 
 
 summary_values_for_integral %>%
@@ -170,11 +170,4 @@ summary_values_for_integral %>%
   geom_line(aes(y = dens_eval_gnum)) +
   geom_line(aes(y = num_dat_prod), color = "red") + 
   geom_line(aes(y = den_dat_prod_cs), color = "blue") + 
-  geom_line(aes(y = den_dat_prod_sus), color = "green") 
-
-
-# Step 10: Sum over theta then multiply 2 values from step 9
-
-# Step 11: divide sum of step 6 by sum of step 10. This is the LR. 
-
-
+  geom_line(aes(y = den_dat_prod_sus), color = "green")
